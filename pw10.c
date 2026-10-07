@@ -15,10 +15,10 @@ int main(void) {
     checksum = (uint16_t)(packet_id + status);
 
     printf("PACKET_ID: %d\n", packet_id);
-    printf("STATUS_CODE: %u\n", (unsigned int)status);
-    printf("STATUS_CHAR: %c\n", (char)status);
+    printf("STATUS_CODE: %u\n", status);
+    printf("STATUS_CHAR: %c\n", status);
     printf("VOLTAGE: %.2f\n", voltage);
-    printf("CHECKSUM: %u\n", (unsigned int)checksum);
+    printf("CHECKSUM: %u\n", checksum);
 
     return 0;
 }
