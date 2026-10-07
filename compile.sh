@@ -1,10 +1,10 @@
 #!/bin/bash
 
-for ((i=1; i<=$2; i++))
+for ((i=1; i<=$1; i++))
 do
-    if [ -f "pw$1-$i.c" ]; then
-        gcc "pw$1-$i.c" -o "$i.out"
+    if [ -f "pw$i.c" ]; then
+        gcc "pw$i.c" -o "$i.out"
     else
-        echo "Not found pw$1-$i.c"
+        echo "Not found pw$i.c"
     fi
 done
