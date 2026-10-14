@@ -1,17 +1,12 @@
 #include <stdio.h>
-#include <limits.h>
+#include <string.h>
 
 int main(void) {
-    printf("INT_MIN: %d\n", INT_MIN);
-    printf("INT_MAX: %d\n", INT_MAX);
-    printf("UINT_MAX: %u\n", UINT_MAX);
+    char str[] = "\x48\x65\x6C\x6C\x6F\t\x57\x6F\x72\x6C\x64\n";
 
-    /* 
-     * Приведение к unsigned int необходимо,
-     * чтобы вычисление выполнялось в беззнаковом типе
-     * и не возникало переполнения знакового int. 
-     */
-    printf("RANGE_OK: %d\n", (unsigned int)INT_MAX * 2u + 1u == UINT_MAX);
+    printf("%s", str);
+    printf("STRLEN: %zd\n", strlen(str) - 1);
+    printf("SIZEOF: %zu\n", sizeof(str) - 1);
 
     return 0;
 }

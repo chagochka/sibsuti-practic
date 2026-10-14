@@ -1,13 +1,12 @@
 #include <stdio.h>
+#include <string.h>
 
 int main(void) {
-    int d, o, x;
-    scanf("%d %x %o", &d, &x, &o);
+    char sibsutis[20] = "СибГУТИ";
 
-    printf("UNIT_ID: %d\n", d);
-    printf("UNIT_VERSION: %d\n", x);
-    printf("UNIT_STATUS: %d\n", o);
-    printf("SUM: %d\n", d + o + x);
+    printf("SIZEOF: %zu\n", sizeof(sibsutis));
+    printf("STRLEN: %zd\n", strlen(sibsutis));
+    printf("FREE_BYTES: %zu\n", sizeof(sibsutis) - strlen(sibsutis) - 1);
 
     return 0;
 }

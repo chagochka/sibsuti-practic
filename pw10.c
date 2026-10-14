@@ -1,24 +1,19 @@
 #include <stdio.h>
-#include <stdint.h>
+#include <wchar.h>
+#include <locale.h>
 
 int main(void) {
-    int packet_id;
-    uint8_t status;
-    float voltage;
-    uint16_t checksum;
+    setlocale(LC_ALL, "");
 
-    unsigned int status_input;
+    wchar_t first[100];
+    wchar_t second[100];
+    wchar_t third[100];
 
-    scanf("%x %o %f", &packet_id, &status_input, &voltage);
+    wscanf(L"%ls", first);
+    wscanf(L"%ls", second);
+    wscanf(L"%ls", third);
 
-    status = (uint8_t)status_input;
-    checksum = (uint16_t)(packet_id + status);
-
-    printf("PACKET_ID: %d\n", packet_id);
-    printf("STATUS_CODE: %u\n", status);
-    printf("STATUS_CHAR: %c\n", status);
-    printf("VOLTAGE: %.2f\n", voltage);
-    printf("CHECKSUM: %u\n", checksum);
+    wprintf(L"%-15ls|%20ls|%.5ls\n", first, second, third);
 
     return 0;
 }
