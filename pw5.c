@@ -1,6 +1,4 @@
 #include <stdio.h>
-
-const double COEF = 3.281;
 double m_to_ft(double m);
 
 int main(void) {
@@ -12,6 +10,8 @@ int main(void) {
     return 0;
 }
 
-double m_to_ft(double m){
+double m_to_ft(double m)
+{
+    const double COEF = 3.281;
     return m * COEF;
 }
