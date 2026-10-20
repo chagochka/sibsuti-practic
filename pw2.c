@@ -1,13 +1,14 @@
 #include <stdio.h>
-#include <string.h>
+#include <stdint.h>
 
 int main(void) {
-    char word1[15];
-    char word2[15];
-    scanf("%s %s", word1, word2);
+    uint8_t a, b, c; // 19 вариант
+    scanf("%hhu %hhu %hhu", &a, &b, &c);
 
-    printf("%s-%s\n", word1, word2);
-    printf("TOTAL_LEN: %zd\n", strlen(word1) + strlen(word2));
-    
+    float result = (float)(a + b + c) / 3;
+    printf("RESULT: %.2f\n", result);
+    printf("SIZE_UINT8: %llu\n", (unsigned long long)sizeof(uint8_t));
+    printf("SIZE_FLOAT: %llu\n", (unsigned long long)sizeof(float));
+
     return 0;
 }

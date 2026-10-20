@@ -1,12 +1,12 @@
 #include <stdio.h>
-#include <string.h>
+
+#define SEC_IN_MIN 60 // 12 вариант
 
 int main(void) {
-    char sibsutis[20] = "СибГУТИ";
-
-    printf("SIZEOF: %zu\n", sizeof(sibsutis));
-    printf("STRLEN: %zd\n", strlen(sibsutis));
-    printf("FREE_BYTES: %zu\n", sizeof(sibsutis) - strlen(sibsutis) - 1);
+    int seconds;
+    
+    while (scanf("%d", &seconds) == 1 && seconds > 0)
+        printf("= %d мин. %d с.\n", seconds / SEC_IN_MIN, seconds % SEC_IN_MIN);
 
     return 0;
 }

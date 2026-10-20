@@ -1,17 +1,17 @@
 #include <stdio.h>
 
+const double COEF = 3.281;
+double m_to_ft(double m);
+
 int main(void) {
-    char ch;
+    double value;
 
-    scanf("%c", &ch);
-
-    printf("CODE_DEC: %d\n", ch);
-    printf("CODE_HEX: %x\n", ch);
-    printf("CODE_OCT: %o\n", ch);
-
-    printf("UPPER: %c\n", ch - 32);
-    printf("NEXT: %c\n", ch + 1);
-    printf("PREV: %c\n", ch - 1);
+    while (scanf("%lf", &value) == 1)
+        printf("%.2lf\n", m_to_ft(value));
 
     return 0;
+}
+
+double m_to_ft(double m){
+    return m * COEF;
 }

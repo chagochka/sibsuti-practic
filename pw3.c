@@ -1,14 +1,18 @@
 #include <stdio.h>
-#include <string.h>
 
 int main(void) {
-    char name[100];
-    scanf("%s", name);
+    int n, cur, prev, i; // 25 вариант
+    scanf("%d", &n);
 
-    printf("\"%s\"\n", name);
-    printf("\"%20s\"\n", name);
-    printf("\"%-20s\"\n", name);
-    printf("\"%*s\"\n", (int) strlen(name) + 5, name);
+    cur = prev = 0;
+    i = 0;
+    printf("%d ", cur);
+    while (++i < n){
+        cur = prev + 3;
+        printf("%d ", cur);
+        prev = cur;
+    }
 
+    printf("\n");
     return 0;
 }
