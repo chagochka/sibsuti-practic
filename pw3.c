@@ -1,18 +1,17 @@
 #include <stdio.h>
+#include <math.h>
 
 int main(void) {
-    int n, cur, prev, i; // 25 вариант
+    int n = 1; // 18 вариант
+    double sum;
+    int i;
     scanf("%d", &n);
-
-    cur = prev = 0;
-    i = 0;
-    printf("%d ", cur);
-    while (++i < n){
-        cur = prev + 3;
-        printf("%d ", cur);
-        prev = cur;
+    
+    while (n > 0){
+        for (sum = 0.0, i = 0; i < n; i++, sum += 1 / sqrt(i));
+        printf("SUM: %.6lf\n", sum);
+        scanf("%d", &n);
     }
 
-    printf("\n");
     return 0;
 }

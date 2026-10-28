@@ -1,16 +1,16 @@
 #include <stdio.h>
-double m_to_ft(double m);
+#include <math.h>
+double calc(double a, double b);
 
 int main(void) {
-    double value; // 5 вариант
+    double a, b; // 28 вариант
 
-    while (scanf("%lf", &value) == 1)
-        printf("%.2lf\n", m_to_ft(value));
+    while (scanf("%lf %lf", &a, &b) == 2)
+        printf("%.4lf\n", calc(a, b));
 
     return 0;
 }
 
-double m_to_ft(double m) {
-    const double COEF = 3.281;
-    return m * COEF;
+double calc(double a, double b){
+    return (a - b)/sqrt(a * a - b * b);
 }
