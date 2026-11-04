@@ -1,12 +1,17 @@
 #include <stdio.h>
-#define HEIGHT 5 // 12 вариант
+#include <wchar.h>
+#include <locale.h>
 
 int main(void) {
-    for (int i = 1; i <= HEIGHT; i++){
-        for (int j = 0; j < i; j++)
-            printf("%d", 1);
-        printf("\n");
-    }
+    setlocale(LC_ALL, "");
+    wchar_t ch, min;
+    ch = min = getwchar(); // 12 вариант
 
+    while (ch != L'#'){
+        if (ch < min) min = ch;
+        ch = getwchar();
+    }
+    
+    printf("%d\n", min);    
     return 0;
 }
