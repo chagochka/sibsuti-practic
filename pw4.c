@@ -1,27 +1,26 @@
 #include <stdio.h> // 24 вариант
+void sorting(double *x, double *y, double *c);
 
 int main(void) {
-    double water;
-    double cost;
-    scanf("%lf", &water);
+    double x, y, c;
 
-    if (water <= 10) {
-        cost = water * 1;
-        printf("1 tariff: %.2f\n", cost);
-    } else if (water <= 30) {
-        cost = 10 * 1 + (water - 10) * 2;
-        printf("1 tariff: %.2f\n", 10.0);
-        printf("2 tariff: %.2f\n", (water - 10) * 2);
-    } else {
-        cost = 10 * 1 + 20 * 2 + (water - 30) * 3;
-        printf("1 tariff: %.2f\n", 10.0);
-        printf("2 tariff: %.2f\n", 40.0);
-        printf("3 tarrif: %.2f\n", (water - 30) * 3);
-    }
-
-    if (water >= 0) {
-        printf("Total: %.2f\n", cost);
-    }
+    scanf("%lf %lf %lf", &x, &y, &c);
+    sorting(&x, &y, &c);
+    printf("%.2f %.2f %.2f\n", x, y, c);
 
     return 0;
+}
+
+void sorting(double *x, double *y, double *c) {
+    double a = *x, b = *y, d = *c;
+
+    double t1 = (a > b) ? a : b;
+    double t2 = (t1 > d) ? t1 : d;
+
+    t1 = (a < b) ? a : b;
+    double t3 = (t1 < d) ? t1 : d;
+
+    *x = t2;
+    *y = t3;
+    *c = (a + b + d) - t2 - t3;
 }

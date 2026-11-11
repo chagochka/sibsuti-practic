@@ -1,95 +1,57 @@
-#include <stdio.h>
-void print_menu(void);
+#include <stdio.h> // 28 вариант
+
+int check_iter(int num);
+int check_recur(int num);
+int sum_recur(int num, int i);
 
 int main(void) {
-    int choice, exit;
-    double mass, volume, density;
-    exit = 0;
+    int num;
 
-    printf("\n--- Density Calculator ---\n");
-    print_menu();
-    while (!exit) {
-        printf("Choose an option: ");
-        scanf("%d", &choice);
-
-        switch (choice) {
-            case 1:
-                printf("Enter mass: ");
-                scanf("%lf", &mass);
-
-                printf("Enter volume: ");
-                scanf("%lf", &volume);
-
-                if (volume == 0) {
-                    printf("Volume cannot be zero.\n");
-                    break;
-                }
-
-                density = mass / volume;
-                printf("Density: %.2f\n", density);
-                break;
-
-            case 2:
-                printf("Enter density: ");
-                scanf("%lf", &density);
-
-                printf("Enter volume: ");
-                scanf("%lf", &volume);
-
-                mass = density * volume;
-                printf("Mass: %.2f\n", mass);
-                break;
-
-            case 3:
-                printf("Enter mass: ");
-                scanf("%lf", &mass);
-
-                printf("Enter density: ");
-                scanf("%lf", &density);
-
-                if (density == 0) {
-                    printf("Density cannot be zero.\n");
-                    break;
-                }
-
-                volume = mass / density;
-                printf("Volume: %.2f\n", volume);
-                break;
-
-            case 4:
-                printf("Enter volume: ");
-                scanf("%lf", &volume);
-
-                printf("Enter mass: ");
-                scanf("%lf", &mass);
-
-                if (mass == 0) {
-                    printf("Mass cannot be zero.\n");
-                    break;
-                }
-
-                printf("Specific volume: %.2f\n", volume / mass);
-                break;
-
-            case 5:
-                printf("Program finished.\n");
-                exit = 1;
-                break;
-
-            default:
-                printf("Invalid choice. Try again.\n");
-                print_menu();
-                continue;
-        }
+    while (scanf("%d", &num) == 1) {
+        printf("ITER: %s\nRECUR: %s\n",
+               (check_iter(num)) ? "YES" : "NO",
+               (check_recur(num)) ? "YES" : "NO");
     }
 
     return 0;
 }
 
-void print_menu(void){
-    printf("1. Calculate density\n");
-    printf("2. Calculate mass\n");
-    printf("3. Calculate volume\n");
-    printf("4. Calculate specific volume\n");
-    printf("5. Exit\n");
+int check_iter(int num) {
+    if (num < 2) return 0;
+
+    int sum = 0;
+
+    for (int i = 1; i * i <= num; i++) {
+        if (num % i == 0) {
+            sum += i;
+
+            if (i != 1 && i != num / i) {
+                sum += num / i;
+            }
+        }
+    }
+
+    return num == sum;
+}
+
+int sum_recur(int num, int i) {
+    if (i * i > num) return 0;
+
+    int sum = 0;
+
+    if (num % i == 0) {
+        sum += i;
+
+        if (i != 1 && i != num / i) {
+            sum += num / i;
+        }
+    }
+
+    return sum + sum_recur(num, i + 1);
+}
+
+int check_recur(int num) {
+    if (num < 2) return 0;
+
+    return num == sum_recur(num, 1);
 }

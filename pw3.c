@@ -1,30 +1,29 @@
 #include <stdio.h> // 18 вариант
 
-int main(void) {
-    int num, count1, count2, sum1, sum2, temp, temp_sum;
-    count1 = count2 = sum1 = sum2 = 0;
-    
-    scanf("%d", &num);
-    while (num != 0) {
-        temp_sum = 0;
-        temp = num;
-        while (temp != 0){
-            temp_sum += temp % 10;
-            temp /= 10;
-        }
+double calculate(double a, double b) {
+    double x = a * b;
+    double sin = 0;
+    double cos = 0;
+    double term_sin = x;
+    double term_cos = 1;
 
-        if (num % temp_sum == 0){
-            count1++;
-            sum1 += num;
-        } else {
-            count2++;
-            sum2 += num;
-        }
+    for (int i = 0; i < 15; i++) {
+        sin += term_sin;
+        cos += term_cos;
 
-        scanf("%d", &num);
+        term_sin *= -x * x / ((2 * i + 2) * (2 * i + 3));
+        term_cos *= -x * x / ((2 * i + 1) * (2 * i + 2));
     }
 
-    printf("condition:\n\nCOUNT:\t%d\nAVERAGE:\t%.2f\n\n", count1, (double)sum1 / count1);
-    printf("other:\n\nCOUNT:\t%d\nAVERAGE:\t%.2f\n", count2, (double)sum2 / count2);
+    return sin / cos;
+}
+
+int main(void) {
+    double a, b;
+
+    while (scanf("%lf %lf", &a, &b) == 2) {
+        printf("Result: %.4f\n", calculate(a, b));
+    }
+
     return 0;
 }

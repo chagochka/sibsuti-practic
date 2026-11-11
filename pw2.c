@@ -1,17 +1,33 @@
 #include <stdio.h>
-#include <wchar.h>
-#include <locale.h>
+int isPrime(int n);
 
 int main(void) {
-    setlocale(LC_ALL, "");
-    wchar_t ch, min;
-    ch = min = getwchar(); // 12 вариант
+    int ch, count, total;
+    count = total = 0;
 
-    while (ch != L'#'){
-        if (ch < min) min = ch;
-        ch = getwchar();
+    while ((ch = getchar()) != EOF) {
+        total++;
+        if (isPrime(ch)) {
+            count++;
+        }
     }
-    
-    printf("%d\n", min);    
+
+    printf("Prime: %d\n", count);
+    printf("Total: %d\n", total);
+
     return 0;
+}
+
+int isPrime(int n) {
+    if (n < 2) {
+        return 0;
+    }
+
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            return 0;
+        }
+    }
+
+    return 1;
 }
