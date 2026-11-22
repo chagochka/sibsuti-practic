@@ -1,28 +1,28 @@
 #include <stdio.h>
-#include "myarrfunc.h"
+#include "matrixfunc.h"
 
-#define MAX_SIZE 1024
+#define MAX_SIZE 100
 
 void clear(void);
 
 int main(void) {
     char command[2] = "";
-    int array[MAX_SIZE];
-    int k;
-    size_t size = 0;
-    int result;
+    int array[MAX_SIZE][MAX_SIZE];
+    int k, m;
+    size_t rows = 0;
+    size_t cols = 0;
 
     while (command[0] != 'g') {
         printf("a\tЗадать размер массива\n");
         printf("b\tЗаполнить массив\n");
         printf("c\tПредставление массива (значения, адреса)\n");
-        printf("d\tПоиск значения последнего положительного элемента массива\n");
-        printf("e\tОпределение количества элементов массива по значению ниже введенного k\n");
-        printf("f\tОпределение индексов элементов массива по значению выше введенного k\n");
+        printf("d\tВычисление суммы всех элементов матрицы\n");
+        printf("e\tВычисление суммы элементов, значения которых находятся в заданном диапазоне значений k–m\n");
+        printf("f\tВычисление суммы элементов побочной диагонали матрицы\n");
         printf("g\tВыход\n");
         printf("Выберите пункт: ");
 
-        if (scanf("%c", command) == EOF)
+        if (scanf(" %c", command) == EOF)
             break;
 
         clear();
@@ -30,31 +30,34 @@ int main(void) {
         switch (command[0]) {
             case 'a':
                 printf("Введите желаемый размер: ");
-                while (scanf("%zu", &size) != 1) { 
+                while (scanf("%zu %zu", &rows, &cols) != 2) { 
                     printf("Ошибка: введите число!\n");
                     clear();
                 }
 
                 clear();
 
-                if (size < 1 || size > MAX_SIZE) {
+                if (rows < 1 || rows > MAX_SIZE || cols < 1 || cols > MAX_SIZE) {
                     printf("Ошибка: размер должен быть от 1 до %d!\n", MAX_SIZE);
-                    size = 0;
+                    rows = 0;
+                    cols = 0;
                 }
                 break;
 
             case 'b':
-                if (size == 0) {
+                if (rows == 0 || cols == 0) {
                     printf("Сначала задайте размер массива!\n");
                     break;
                 }
 
                 printf("Введите элементы: ");
 
-                for (size_t i = 0; i < size; i++) {
-                    while (scanf("%d", &array[i]) != 1) {
+                for (size_t i = 0; i < rows; i++) {
+                    for (size_t j = 0; j < cols; j++){
+                    while (scanf("%d", &array[i][j]) != 1) {
                         printf("Ошибка: введите число!\n");
                         clear();
+                    }
                     }
                 }
 
@@ -64,54 +67,37 @@ int main(void) {
             case 'c':
                 printf("Ваш массив:\n");
 
-                for (size_t i = 0; i < size; i++) {
-                    printf("%d - %p\n", array[i], &array[i]);
+                for (size_t i = 0; i < rows; i++) {
+                    for (size_t j = 0; j < cols; j++)
+                        printf("%d - %p\t", array[i][j], &array[i][j]);    
+                    printf("\n");
                 }
                 break;
 
             case 'd':
-                if (size == 0) {
-                    printf("Массив пуст!\n");
+                if (rows == 0){
+                    printf("Матрица пустая\n");
                     break;
                 }
-
-                printf("Значение последнего положительного элемента массива: %d\n",
-                       last_positive(array, size));
+                printf("Сумма всех элементов матрицы: %d\n", total_sum(&array[0][0], rows, cols));
                 break;
 
             case 'e':
-                if (size == 0) {
-                    printf("Массив пуст!\n");
-                    break;
-                }
-                printf("Введите k: ");
-
-                while (scanf("%d", &k) != 1) {
+                printf("Введите границы диапазона k и m: ");
+                while (scanf("%d %d", &k, &m) != 2) { 
                     printf("Ошибка: введите число!\n");
                     clear();
                 }
 
-                clear();
-
-                printf("Количество элементов массива по значению ниже %d: %u\n",
-                       k, count_lower(array, size, k));
+                printf("Сумма элементов в диапазоне: %d\n", gap_sum(&array[0][0], rows, cols, k, m));
                 break;
 
             case 'f':
-                if (size == 0) {
-                    printf("Массив пуст!\n");
+                if (rows == 0){
+                    printf("Матрица пустая\n");
                     break;
                 }
-
-                printf("Введите k: ");
-
-                while (scanf("%d", &k) != 1) {
-                    printf("Ошибка: введите число!\n");
-                    clear();
-                }
-
-                clear();
-                index_higher(array, size, k);
+                printf("Сумма всех элементов побочной диагонали матрицы: %d\n", subdiag_sum(&array[0][0], rows, cols));
                 break;
 
             case 'g':
