@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include "matrixfunc.h"
 
@@ -6,102 +7,159 @@
 void clear(void);
 
 int main(void) {
-    char command[2] = "";
+    char command;
     int array[MAX_SIZE][MAX_SIZE];
     int k, m;
+    int result;
     size_t rows = 0;
     size_t cols = 0;
+    int filled = 0;
 
-    while (command[0] != 'g') {
-        printf("a\tЗадать размер массива\n");
-        printf("b\tЗаполнить массив\n");
-        printf("c\tПредставление массива (значения, адреса)\n");
-        printf("d\tВычисление суммы всех элементов матрицы\n");
-        printf("e\tВычисление суммы элементов, значения которых находятся в заданном диапазоне значений k–m\n");
-        printf("f\tВычисление суммы элементов побочной диагонали матрицы\n");
+    while (1) {
+        printf("\na\tЗадать размер матрицы\n");
+        printf("b\tЗаполнить матрицу\n");
+        printf("c\tПредставление матрицы (значения, адреса)\n");
+        printf("d\tСумма всех элементов матрицы\n");
+        printf("e\tСумма элементов в диапазоне k-m\n");
+        printf("f\tСумма элементов побочной диагонали\n");
         printf("g\tВыход\n");
         printf("Выберите пункт: ");
 
-        if (scanf(" %c", command) == EOF)
+        if (scanf(" %c", &command) != 1)
             break;
 
         clear();
 
-        switch (command[0]) {
-            case 'a':
-                printf("Введите желаемый размер: ");
-                while (scanf("%zu %zu", &rows, &cols) != 2) { 
-                    printf("Ошибка: введите число!\n");
+        switch (command) {
+            case 'a': {
+                int r, c;
+
+                printf("Введите количество строк и столбцов: ");
+
+                while ((result = scanf("%d %d", &r, &c)) != 2) {
+                    if (result == EOF)
+                        return 0;
+
+                    printf("Ошибка: введите два числа!\n");
                     clear();
                 }
 
                 clear();
 
-                if (rows < 1 || rows > MAX_SIZE || cols < 1 || cols > MAX_SIZE) {
+                if (r < 1 || r > MAX_SIZE || c < 1 || c > MAX_SIZE) {
                     printf("Ошибка: размер должен быть от 1 до %d!\n", MAX_SIZE);
                     rows = 0;
                     cols = 0;
-                }
-                break;
-
-            case 'b':
-                if (rows == 0 || cols == 0) {
-                    printf("Сначала задайте размер массива!\n");
+                    filled = 0;
                     break;
                 }
 
-                printf("Введите элементы: ");
+                rows = (size_t)r;
+                cols = (size_t)c;
+                filled = 0;
+
+                printf("Размер матрицы задан!\n");
+                break;
+            }
+
+            case 'b':
+                if (rows == 0 || cols == 0) {
+                    printf("Сначала задайте размер матрицы!\n");
+                    break;
+                }
+
+                printf("Введите элементы матрицы:\n");
 
                 for (size_t i = 0; i < rows; i++) {
-                    for (size_t j = 0; j < cols; j++){
-                    while (scanf("%d", &array[i][j]) != 1) {
-                        printf("Ошибка: введите число!\n");
-                        clear();
-                    }
+                    for (size_t j = 0; j < cols; j++) {
+                        while ((result = scanf("%d", &array[i][j])) != 1) {
+                            if (result == EOF)
+                                return 0;
+
+                            printf("Ошибка: введите число!\n");
+                            clear();
+                        }
                     }
                 }
 
                 clear();
+                filled = 1;
+
+                printf("Матрица заполнена!\n");
                 break;
 
             case 'c':
-                printf("Ваш массив:\n");
+                if (!filled) {
+                    printf("Сначала заполните матрицу!\n");
+                    break;
+                }
+
+                printf("Ваша матрица:\n");
 
                 for (size_t i = 0; i < rows; i++) {
-                    for (size_t j = 0; j < cols; j++)
-                        printf("%d - %p\t", array[i][j], &array[i][j]);    
+                    for (size_t j = 0; j < cols; j++) {
+                        printf("%d - %p\t",
+                               array[i][j], (void *)&array[i][j]);
+                    }
                     printf("\n");
                 }
                 break;
 
             case 'd':
-                if (rows == 0){
-                    printf("Матрица пустая\n");
+                if (!filled) {
+                    printf("Сначала заполните матрицу!\n");
                     break;
                 }
-                printf("Сумма всех элементов матрицы: %d\n", total_sum(&array[0][0], rows, cols));
+
+                printf("Сумма всех элементов матрицы: %d\n",
+                       total_sum(&array[0][0], rows, cols));
                 break;
 
             case 'e':
+                if (!filled) {
+                    printf("Сначала заполните матрицу!\n");
+                    break;
+                }
+
                 printf("Введите границы диапазона k и m: ");
-                while (scanf("%d %d", &k, &m) != 2) { 
-                    printf("Ошибка: введите число!\n");
+
+                while ((result = scanf("%d %d", &k, &m)) != 2) {
+                    if (result == EOF)
+                        return 0;
+
+                    printf("Ошибка: введите два числа!\n");
                     clear();
                 }
 
-                printf("Сумма элементов в диапазоне: %d\n", gap_sum(&array[0][0], rows, cols, k, m));
+                clear();
+
+                if (k > m) {
+                    int temp = k;
+                    k = m;
+                    m = temp;
+                }
+
+                printf("Сумма элементов в диапазоне: %d\n",
+                       gap_sum(&array[0][0], rows, cols, k, m));
                 break;
 
             case 'f':
-                if (rows == 0){
-                    printf("Матрица пустая\n");
+                if (!filled) {
+                    printf("Сначала заполните матрицу!\n");
                     break;
                 }
-                printf("Сумма всех элементов побочной диагонали матрицы: %d\n", subdiag_sum(&array[0][0], rows, cols));
+
+                if (rows != cols) {
+                    printf("Для побочной диагонали нужна квадратная матрица!\n");
+                    break;
+                }
+
+                printf("Сумма элементов побочной диагонали: %d\n",
+                       subdiag_sum(&array[0][0], rows, cols));
                 break;
 
             case 'g':
-                break;
+                return 0;
 
             default:
                 printf("Неизвестная команда!\n");
