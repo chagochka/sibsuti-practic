@@ -99,7 +99,7 @@ int main(void) {
                 for (size_t i = 0; i < rows; i++) {
                     for (size_t j = 0; j < cols; j++) {
                         printf("%d - %p\t",
-                               array[i][j], (void *)&array[i][j]);
+                               array[i][j], &array[i][j]);
                     }
                     printf("\n");
                 }
